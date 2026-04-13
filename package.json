@@ -1,1 +1,32 @@
-{ "name": "endpnt-validate", "version": "0.0.1", "scripts": { "build": "echo done" } }
+{
+  "name": "endpnt-validate",
+  "version": "0.1.0",
+  "description": "Validation API — verify emails, phone numbers, and domains",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.4.5",
+    "libphonenumber-js": "^1.10.60",
+    "@upstash/redis": "^1.31.3",
+    "@upstash/ratelimit": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "tailwindcss": "^3.4.3",
+    "postcss": "^8.4.38",
+    "autoprefixer": "^10.4.19"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
