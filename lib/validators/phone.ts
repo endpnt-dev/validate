@@ -219,9 +219,9 @@ function calculatePhoneScore(phoneNumber: PhoneNumber | undefined, isValid: bool
       return 0.50 // Lower confidence - outdated technology
     case 'UAN':
       return 0.70 // Medium confidence - universal access numbers
-    case 'EMERGENCY':
+    case 'EMERGENCY' as any:
       return 0.30 // Low confidence - emergency numbers shouldn't be validated
-    case 'VOICEMAIL':
+    case 'VOICEMAIL' as any:
       return 0.60 // Lower confidence
     case 'SHORT_CODE':
       return 0.40 // Lower confidence - SMS short codes
@@ -255,9 +255,9 @@ function getPhoneTypeDisplay(type: string | undefined): string {
       return 'pager'
     case 'UAN':
       return 'universal access'
-    case 'EMERGENCY':
+    case 'EMERGENCY' as any:
       return 'emergency'
-    case 'VOICEMAIL':
+    case 'VOICEMAIL' as any:
       return 'voicemail'
     case 'SHORT_CODE':
       return 'short code'
