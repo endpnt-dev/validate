@@ -215,7 +215,7 @@ function calculatePhoneScore(phoneNumber: PhoneNumber | undefined, isValid: bool
       return 0.75 // Good confidence - VoIP numbers are common
     case 'PERSONAL_NUMBER':
       return 0.80 // Good confidence
-    case 'PAGER':
+    case 'PAGER' as any:
       return 0.50 // Lower confidence - outdated technology
     case 'UAN':
       return 0.70 // Medium confidence - universal access numbers
@@ -223,9 +223,9 @@ function calculatePhoneScore(phoneNumber: PhoneNumber | undefined, isValid: bool
       return 0.30 // Low confidence - emergency numbers shouldn't be validated
     case 'VOICEMAIL' as any:
       return 0.60 // Lower confidence
-    case 'SHORT_CODE':
+    case 'SHORT_CODE' as any:
       return 0.40 // Lower confidence - SMS short codes
-    case 'STANDARD_RATE':
+    case 'STANDARD_RATE' as any:
       return 0.85 // High confidence - standard rate numbers
     default:
       return 0.70 // Default medium confidence if type is unknown
@@ -251,7 +251,7 @@ function getPhoneTypeDisplay(type: string | undefined): string {
       return 'voip'
     case 'PERSONAL_NUMBER':
       return 'personal'
-    case 'PAGER':
+    case 'PAGER' as any:
       return 'pager'
     case 'UAN':
       return 'universal access'
@@ -259,9 +259,9 @@ function getPhoneTypeDisplay(type: string | undefined): string {
       return 'emergency'
     case 'VOICEMAIL' as any:
       return 'voicemail'
-    case 'SHORT_CODE':
+    case 'SHORT_CODE' as any:
       return 'short code'
-    case 'STANDARD_RATE':
+    case 'STANDARD_RATE' as any:
       return 'standard'
     default:
       return type.toLowerCase().replace(/_/g, ' ')
