@@ -44,7 +44,7 @@ const phoneHandler = createApiHandler(async (request: NextRequest, auth) => {
       return validationError('Country must be a 2-letter ISO country code (e.g., "US", "GB")')
     }
 
-    countryCode = country.toUpperCase()
+    countryCode = country.toUpperCase() as any
   }
 
   try {
