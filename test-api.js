@@ -6,7 +6,7 @@
  */
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-const API_KEY = 'ek_live_demo123'
+const API_KEY = 'ek_live_74qlNSbK5jTwq28Y'
 
 // Test cases from the spec
 const tests = [

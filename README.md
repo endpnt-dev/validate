@@ -32,7 +32,7 @@ cp .env.example .env.local
 Edit `.env.local`:
 
 ```env
-API_KEYS={"ek_live_demo123":{"tier":"free","name":"Demo Key"}}
+API_KEYS={"ek_live_74qlNSbK5jTwq28Y":{"tier":"free","name":"Demo Key"}}
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
@@ -49,7 +49,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see the live demo.
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/email \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_demo123" \
+  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
   -d '{"email": "test@example.com"}'
 ```
 

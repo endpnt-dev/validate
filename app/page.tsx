@@ -17,7 +17,7 @@ export default function Home() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'ek_live_demo123',
+          'x-api-key': 'ek_live_74qlNSbK5jTwq28Y',
         },
         body: JSON.stringify({
           email: demoEmail,
@@ -113,7 +113,7 @@ export default function Home() {
                   value={demoEmail}
                   onChange={(e) => setDemoEmail(e.target.value)}
                   placeholder="test@example.com"
-                  className="input flex-1"
+                  className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   onKeyDown={(e) => e.key === 'Enter' && handleDemoValidation()}
                 />
                 <button

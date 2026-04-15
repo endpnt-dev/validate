@@ -18,7 +18,7 @@ The endpnt Validation API includes comprehensive testing capabilities with 16 sm
    
    Configure the following variables:
    ```
-   API_KEYS={"ek_live_demo123":{"tier":"free","name":"Demo Key"}}
+   API_KEYS={"ek_live_74qlNSbK5jTwq28Y":{"tier":"free","name":"Demo Key"}}
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
 
@@ -62,7 +62,7 @@ This runs 16 smoke tests covering:
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/email \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_demo123" \
+  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
   -d '{
     "email": "test@example.com",
     "check_mx": true,
@@ -76,7 +76,7 @@ curl -X POST http://localhost:3000/api/v1/validate/email \
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/phone \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_demo123" \
+  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
   -d '{
     "phone": "+1-555-123-4567",
     "country": "US"
@@ -87,7 +87,7 @@ curl -X POST http://localhost:3000/api/v1/validate/phone \
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/domain \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_demo123" \
+  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
   -d '{
     "domain": "example.com",
     "check_dns": true,
@@ -99,7 +99,7 @@ curl -X POST http://localhost:3000/api/v1/validate/domain \
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/batch \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_demo123" \
+  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
   -d '{
     "items": [
       {"type": "email", "value": "test@example.com"},
