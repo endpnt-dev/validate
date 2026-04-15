@@ -356,7 +356,7 @@ export default function DocsPage() {
                       type="email"
                       value={emailTest.email}
                       onChange={(e) => setEmailTest({ ...emailTest, email: e.target.value })}
-                      className="input w-full"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
 
@@ -417,7 +417,7 @@ export default function DocsPage() {
                       type="tel"
                       value={phoneTest.phone}
                       onChange={(e) => setPhoneTest({ ...phoneTest, phone: e.target.value })}
-                      className="input w-full"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
 
@@ -426,7 +426,7 @@ export default function DocsPage() {
                     <select
                       value={phoneTest.country}
                       onChange={(e) => setPhoneTest({ ...phoneTest, country: e.target.value })}
-                      className="input w-full"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       <option value="US">United States (US)</option>
                       <option value="GB">United Kingdom (GB)</option>
@@ -455,7 +455,7 @@ export default function DocsPage() {
                       type="text"
                       value={domainTest.domain}
                       onChange={(e) => setDomainTest({ ...domainTest, domain: e.target.value })}
-                      className="input w-full"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
 
