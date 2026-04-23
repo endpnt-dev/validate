@@ -17,22 +17,24 @@ Input: JSON body with the value to validate + options. Output: validation result
 
 ---
 
-## Validate is the Outlier — Know Where It Diverges
+## Validate is the Outlier — Rate-Limit Divergences
 
-Validate was built with subtly different conventions than its sister APIs (QR, Preview, Convert, Screenshot). These divergences are tracked as future work, NOT to be fixed in ad-hoc tasks:
+Validate was built with subtly different conventions than its sister APIs (QR, Preview, Convert, Screenshot). The 4 historical divergences, with current status:
 
-### 1. Rate-limit algorithm
+### 1. Rate-limit algorithm (STILL DIVERGENT — deferred)
 
 Validate uses `Ratelimit.fixedWindow()`. All other APIs use `Ratelimit.slidingWindow()`.
 
 Behavior difference: fixed-window allows bursts at window boundaries (a free user can hit 20 requests in 1 second if they straddle a window reset). Sliding-window is smoother and more forgiving of legitimate bursts while harder to exploit.
 
-### 2. Rate-limit config shape
+This is technically coupled with config shape (see item 2) — swapping the algorithm requires the corresponding config shape.
+
+### 2. Rate-limit config shape (STILL DIVERGENT — deferred)
 
 Validate's `lib/config.ts` uses:
 
 ```typescript
-RATE_LIMITS[tier] = { requests: number, window: string }
+RATE_LIMITS[tier] = { requests: number, window: number }
 ```
 
 All other APIs use:
@@ -41,25 +43,30 @@ All other APIs use:
 TIER_LIMITS[tier] = { requests_per_minute: number, requests_per_month: number }
 ```
 
-This means Validate's rate-limit config cannot be copy-pasted to/from sister APIs without rewriting.
+This is technically coupled with algorithm (see item 1) — the algorithm constructor consumes this shape.
 
-### 3. Rate-limit key prefix
+### 3. Rate-limit key prefix (FIXED in Phase 8)
 
-Validate uses `@upstash/ratelimit:validate:{tier}`. All others use `rl:{api}:{tier}` (after the Screenshot fix lands).
+Previously `@upstash/ratelimit:validate:{tier}` and `@upstash/ratelimit:validate:demo`. Now `endpnt:ratelimit:validate:{tier}` and `endpnt:demo:validate:ratelimit`, matching platform standard.
 
-Validate's prefix is fine — it's API-namespaced and doesn't collide. It just doesn't match.
+### 4. Tier set (FIXED 2026-04-23, commit 9ada712)
 
-### 4. Tier set
+Previously exposed only `free / pro / enterprise`. Now also includes `starter`, matching platform standard.
 
-~~Validate exposes `free / pro / enterprise` only. No `starter` tier.~~ **Fixed 2026-04-23:** `starter` tier added to `ApiKeyInfo` union in `lib/config.ts` and to the tier allow-list in `lib/auth.ts`. Phase 7 key rotation required it (Demo Proxy Key upgraded to starter tier). See exception note below.
+### The coupling rule (reframed 2026-04-23)
 
-### The fix (future, not now)
+**Genuinely coupled:** items 1 and 2 (algorithm + config shape). The algorithm constructor consumes the config shape directly — you cannot change one without breaking the other. These remain deferred to a future "validate rate-limit normalization" spec.
 
-All four divergences get fixed together as a dedicated "validate normalization" spec. Do NOT attempt partial fixes — the config shape and algorithm changes couple with tier-count changes, and you cannot cleanly do one without the others.
+**Not coupled:** items 3 and 4 (prefix, tier set). These are standalone Redis-key-namespace and tier-list items with no technical interdependency on the algorithm or config shape. Both have now been brought to platform compliance independently.
 
-If you need to touch Validate's rate-limit code for an unrelated reason: preserve the current shape and algorithm. Don't "helpfully" align it with peers mid-task.
+**Historical note:** This rule originally stated "all 4 fixed together." That framing was over-broad — it treated 4 items as if they shared the coupling character of items 1 and 2. Review in Phase 7 and Phase 8 clarified that only items 1 and 2 are actually coupled. Items 3 and 4 have been treated as standalone compliance fixes. The earlier tier-set exception paragraph (2026-04-23) is superseded by this reframing and removed.
 
-Exception (authorized 2026-04-23, JK): The tier-set divergence (starter tier missing) was addressed standalone ahead of the full normalization spec because Phase 7 key rotation required it. The remaining 3 divergences (algorithm: fixedWindow, config shape: requests/window, key prefix: @upstash/ratelimit:validate:{tier}) are still coupled and still deferred to the validate normalization spec. Do NOT use this exception as precedent — future standalone divergence fixes still require explicit JK authorization.
+### What this means for future changes
+
+If you need to touch Validate's rate-limit code for an unrelated reason:
+- Touching the algorithm or config shape alone — STOP, escalate to JK. These need a coordinated spec.
+- Touching the prefix or a tier-list entry for a real compliance reason — proceed with normal agent workflow.
+- Touching any rate-limit logic opportunistically to "align with peers" — STOP, don't.
 
 ---
 

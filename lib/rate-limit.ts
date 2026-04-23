@@ -59,7 +59,7 @@ function getRateLimiter(tier: string): Ratelimit | null {
       redis,
       limiter: Ratelimit.fixedWindow(config.requests, `${config.window} s`),
       analytics: true,
-      prefix: `@upstash/ratelimit:validate:${tier}`,
+      prefix: `endpnt:ratelimit:validate:${tier}`,
     })
 
     rateLimiters.set(tier, limiter)
@@ -166,7 +166,7 @@ function getDemoRateLimiter(): Ratelimit | null {
         `${DEMO_RATE_LIMIT.window_minutes} m`
       ),
       analytics: true,
-      prefix: '@upstash/ratelimit:validate:demo',
+      prefix: 'endpnt:demo:validate:ratelimit',
     })
   }
 
