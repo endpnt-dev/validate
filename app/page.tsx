@@ -13,11 +13,10 @@ export default function Home() {
 
     setIsLoading(true)
     try {
-      const response = await fetch('/api/v1/validate/email', {
+      const response = await fetch('/api/demo/validate/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'ek_live_74qlNSbK5jTwq28Y',
         },
         body: JSON.stringify({
           email: demoEmail,

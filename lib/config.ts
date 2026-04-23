@@ -17,6 +17,11 @@ export const RATE_LIMITS: Record<string, RateLimitConfig> = {
   enterprise: { requests: 100000, window: 86400 }, // 100k per day
 }
 
+export const DEMO_RATE_LIMIT = {
+  requests_per_window: 20,
+  window_minutes: 10,
+} as const
+
 // API configuration
 export const API_CONFIG = {
   MAX_BATCH_SIZE: 50,

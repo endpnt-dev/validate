@@ -1,12 +1,20 @@
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
-import { getRedisConfig, isRedisConfigured, RATE_LIMITS } from './config'
+import { getRedisConfig, isRedisConfigured, RATE_LIMITS, DEMO_RATE_LIMIT } from './config'
 
 // Rate limit result
 export interface RateLimitResult {
   success: boolean
   remaining: number
   reset: number // Unix timestamp
+  limit: number
+}
+
+// Demo-proxy rate limit result — uses `allowed` field to match canonical demo-proxy.ts
+export interface DemoRateLimitResult {
+  allowed: boolean
+  remaining: number
+  reset: number
   limit: number
 }
 
@@ -139,5 +147,70 @@ export async function getRateLimitInfo(
   } catch (error) {
     console.error('Rate limit info check failed:', error)
     return null
+  }
+}
+
+let demoRateLimiter: Ratelimit | null = null
+
+function getDemoRateLimiter(): Ratelimit | null {
+  const redis = getRedisClient()
+  if (!redis) {
+    return null
+  }
+
+  if (!demoRateLimiter) {
+    demoRateLimiter = new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(
+        DEMO_RATE_LIMIT.requests_per_window,
+        `${DEMO_RATE_LIMIT.window_minutes} m`
+      ),
+      analytics: true,
+      prefix: '@upstash/ratelimit:validate:demo',
+    })
+  }
+
+  return demoRateLimiter
+}
+
+export async function checkDemoRateLimit(ip: string): Promise<DemoRateLimitResult> {
+  if (!isRedisConfigured()) {
+    console.warn('Redis not configured - skipping demo rate limiting')
+    return {
+      allowed: true,
+      remaining: DEMO_RATE_LIMIT.requests_per_window,
+      reset: Date.now() + DEMO_RATE_LIMIT.window_minutes * 60 * 1000,
+      limit: DEMO_RATE_LIMIT.requests_per_window,
+    }
+  }
+
+  const limiter = getDemoRateLimiter()
+  if (!limiter) {
+    console.error('Failed to create demo rate limiter')
+    return {
+      allowed: true,
+      remaining: 0,
+      reset: Date.now() + DEMO_RATE_LIMIT.window_minutes * 60 * 1000,
+      limit: DEMO_RATE_LIMIT.requests_per_window,
+    }
+  }
+
+  try {
+    const result = await limiter.limit(ip)
+
+    return {
+      allowed: result.success,
+      remaining: result.remaining,
+      reset: result.reset,
+      limit: result.limit,
+    }
+  } catch (error) {
+    console.error('Demo rate limit check failed:', error)
+    return {
+      allowed: true,
+      remaining: 0,
+      reset: Date.now() + DEMO_RATE_LIMIT.window_minutes * 60 * 1000,
+      limit: DEMO_RATE_LIMIT.requests_per_window,
+    }
   }
 }
