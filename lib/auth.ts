@@ -20,20 +20,20 @@ function extractApiKey(request: NextRequest): string | null {
   // Try x-api-key header (primary)
   const headerKey = request.headers.get('x-api-key')
   if (headerKey) {
-    return headerKey
+    return headerKey.trim()
   }
 
   // Try Authorization header as backup (Bearer token format)
   const authHeader = request.headers.get('authorization')
   if (authHeader?.startsWith('Bearer ')) {
-    return authHeader.substring(7)
+    return authHeader.substring(7).trim()
   }
 
   // Try query parameter as last resort (for testing)
   const url = new URL(request.url)
   const queryKey = url.searchParams.get('api_key')
   if (queryKey) {
-    return queryKey
+    return queryKey.trim()
   }
 
   return null
@@ -49,7 +49,7 @@ function validateApiKey(apiKey: string): ApiKeyInfo | null {
   }
 
   // Validate tier is valid
-  if (!['free', 'pro', 'enterprise'].includes(keyInfo.tier)) {
+  if (!['free', 'starter', 'pro', 'enterprise'].includes(keyInfo.tier)) {
     console.error(`Invalid tier for API key: ${keyInfo.tier}`)
     return null
   }

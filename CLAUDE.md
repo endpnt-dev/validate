@@ -51,13 +51,15 @@ Validate's prefix is fine — it's API-namespaced and doesn't collide. It just d
 
 ### 4. Tier set
 
-Validate exposes `free / pro / enterprise` only. No `starter` tier. This mirrors an older pricing model that didn't include starter.
+~~Validate exposes `free / pro / enterprise` only. No `starter` tier.~~ **Fixed 2026-04-23:** `starter` tier added to `ApiKeyInfo` union in `lib/config.ts` and to the tier allow-list in `lib/auth.ts`. Phase 7 key rotation required it (Demo Proxy Key upgraded to starter tier). See exception note below.
 
 ### The fix (future, not now)
 
 All four divergences get fixed together as a dedicated "validate normalization" spec. Do NOT attempt partial fixes — the config shape and algorithm changes couple with tier-count changes, and you cannot cleanly do one without the others.
 
 If you need to touch Validate's rate-limit code for an unrelated reason: preserve the current shape and algorithm. Don't "helpfully" align it with peers mid-task.
+
+Exception (authorized 2026-04-23, JK): The tier-set divergence (starter tier missing) was addressed standalone ahead of the full normalization spec because Phase 7 key rotation required it. The remaining 3 divergences (algorithm: fixedWindow, config shape: requests/window, key prefix: @upstash/ratelimit:validate:{tier}) are still coupled and still deferred to the validate normalization spec. Do NOT use this exception as precedent — future standalone divergence fixes still require explicit JK authorization.
 
 ---
 

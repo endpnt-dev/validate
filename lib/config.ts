@@ -1,7 +1,7 @@
 // Configuration constants and types
 
 export interface ApiKeyInfo {
-  tier: 'free' | 'pro' | 'enterprise'
+  tier: 'free' | 'starter' | 'pro' | 'enterprise'
   name: string
 }
 
@@ -13,6 +13,7 @@ export interface RateLimitConfig {
 // Rate limit configurations by tier
 export const RATE_LIMITS: Record<string, RateLimitConfig> = {
   free: { requests: 100, window: 86400 }, // 100 per day
+  starter: { requests: 5000, window: 86400 }, // 5k per day (matches platform starter tier)
   pro: { requests: 10000, window: 86400 }, // 10k per day
   enterprise: { requests: 100000, window: 86400 }, // 100k per day
 }
