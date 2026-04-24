@@ -6,7 +6,12 @@
  */
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-const API_KEY = 'ek_live_74qlNSbK5jTwq28Y'
+// NOTE: API key rotated 2026-04-24 per C-008. Retrieve from Vercel env.
+const API_KEY = process.env.API_KEY
+if (!API_KEY) {
+  console.error('API_KEY env var not set. Run: API_KEY=<your-key> node test-api.js')
+  process.exit(1)
+}
 
 // Test cases from the spec
 const tests = [
@@ -241,7 +246,7 @@ function validateResult(test, result) {
 async function runTests() {
   console.log('🚀 Starting endpnt Validation API Smoke Tests')
   console.log(`📍 Testing against: ${BASE_URL}`)
-  console.log(`🔑 Using API key: ${API_KEY}`)
+  console.log(`🔑 Using API key: ${API_KEY.slice(0, 8)}...`)
   console.log('─'.repeat(60))
 
   let passed = 0

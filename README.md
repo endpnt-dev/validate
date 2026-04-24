@@ -1,3 +1,5 @@
+> **⚠️ Security note (2026-04-24):** This file previously contained a live API key literal (C-008). The key has been revoked and is no longer active. Curl examples use `YOUR_API_KEY` — substitute a key retrieved from Vercel env.
+
 # endpnt Validation API
 
 > Validate emails, phone numbers, and domains instantly with our lightning-fast API
@@ -32,7 +34,7 @@ cp .env.example .env.local
 Edit `.env.local`:
 
 ```env
-API_KEYS={"ek_live_74qlNSbK5jTwq28Y":{"tier":"free","name":"Demo Key"}}
+API_KEYS={"YOUR_API_KEY":{"tier":"free","name":"Demo Key"}}
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
@@ -49,7 +51,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see the live demo.
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/email \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
+  -H "x-api-key: YOUR_API_KEY" \
   -d '{"email": "test@example.com"}'
 ```
 

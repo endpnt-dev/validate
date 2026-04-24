@@ -1,3 +1,5 @@
+> **⚠️ Security note (2026-04-24):** This file previously contained a live API key literal (C-008). The key has been revoked and is no longer active. Curl examples use `YOUR_API_KEY` — substitute a key retrieved from Vercel env.
+
 # Testing Guide
 
 ## Overview
@@ -18,7 +20,7 @@ The endpnt Validation API includes comprehensive testing capabilities with 16 sm
    
    Configure the following variables:
    ```
-   API_KEYS={"ek_live_74qlNSbK5jTwq28Y":{"tier":"free","name":"Demo Key"}}
+   API_KEYS={"YOUR_API_KEY":{"tier":"free","name":"Demo Key"}}
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
 
@@ -62,7 +64,7 @@ This runs 16 smoke tests covering:
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/email \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
+  -H "x-api-key: YOUR_API_KEY" \
   -d '{
     "email": "test@example.com",
     "check_mx": true,
@@ -76,7 +78,7 @@ curl -X POST http://localhost:3000/api/v1/validate/email \
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/phone \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
+  -H "x-api-key: YOUR_API_KEY" \
   -d '{
     "phone": "+1-555-123-4567",
     "country": "US"
@@ -87,7 +89,7 @@ curl -X POST http://localhost:3000/api/v1/validate/phone \
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/domain \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
+  -H "x-api-key: YOUR_API_KEY" \
   -d '{
     "domain": "example.com",
     "check_dns": true,
@@ -99,7 +101,7 @@ curl -X POST http://localhost:3000/api/v1/validate/domain \
 ```bash
 curl -X POST http://localhost:3000/api/v1/validate/batch \
   -H "Content-Type: application/json" \
-  -H "x-api-key: ek_live_74qlNSbK5jTwq28Y" \
+  -H "x-api-key: YOUR_API_KEY" \
   -d '{
     "items": [
       {"type": "email", "value": "test@example.com"},
